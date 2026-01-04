@@ -1,0 +1,3 @@
+Run Date,Dataset,Target,Train Rows,Linear MAE,Linear RMSE,ElasticNet MAE,ElasticNet RMSE,Best Model,Notes
+2024-12-18,synthetic (240),usage_kwh,192,0.001973,0.003338,0.015625,0.020021,Linear,Features: time + peak + lags; seed=42
+2024-12-18,synthetic (240),cost,192,0.001657,0.002939,0.011729,0.020478,Linear,Features: time + peak + lags; seed=42
