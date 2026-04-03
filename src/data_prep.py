@@ -7,8 +7,12 @@ from typing import Tuple
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from .config import DEFAULT_INPUT, DEFAULT_OUTPUT, PROCESSED_DIR, RAW_DIR, SEED, TEST_SIZE
-from .utils import ensure_dir, setup_logging
+try:
+    from .config import DEFAULT_INPUT, DEFAULT_OUTPUT, PROCESSED_DIR, RAW_DIR, SEED, TEST_SIZE
+    from .utils import ensure_dir, setup_logging
+except ImportError:
+    from config import DEFAULT_INPUT, DEFAULT_OUTPUT, PROCESSED_DIR, RAW_DIR, SEED, TEST_SIZE
+    from utils import ensure_dir, setup_logging
 
 
 EXPECTED_COLUMNS = [
