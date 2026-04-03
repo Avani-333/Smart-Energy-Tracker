@@ -10,12 +10,12 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
 try:
-    from src.config import DEFAULT_OUTPUT
+    from src.config import DEFAULT_INPUT, DEFAULT_OUTPUT
     from src.data_prep import preprocess
     from src.features import add_features
 except ModuleNotFoundError:
     # Fallback for platforms that run this file as a script from within src/
-    from config import DEFAULT_OUTPUT
+    from config import DEFAULT_INPUT, DEFAULT_OUTPUT
     from data_prep import preprocess
     from features import add_features
 
@@ -169,12 +169,19 @@ uploaded = st.file_uploader("Upload processed CSV", type=["csv"])
 if uploaded:
     df = pd.read_csv(uploaded)
 else:
-    st.info(f"Using default dataset: {DEFAULT_OUTPUT}")
-    try:
-        df = pd.read_csv(DEFAULT_OUTPUT)
-    except FileNotFoundError:
-        st.warning("No data available. Upload a processed CSV to continue.")
+    default_candidates = [DEFAULT_OUTPUT, DEFAULT_INPUT]
+    loaded_path = None
+    for path in default_candidates:
+        if os.path.exists(path):
+            df = pd.read_csv(path)
+            loaded_path = path
+            break
+
+    if loaded_path is None:
+        st.warning("No bundled dataset found. Upload a CSV to continue.")
         st.stop()
+
+    st.info(f"Using default dataset: {loaded_path}")
 
 with st.spinner("Cleaning data"):
     df = preprocess(df)
