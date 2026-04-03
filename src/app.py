@@ -9,9 +9,15 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
-from src.config import DEFAULT_OUTPUT
-from src.data_prep import preprocess
-from src.features import add_features
+try:
+    from src.config import DEFAULT_OUTPUT
+    from src.data_prep import preprocess
+    from src.features import add_features
+except ModuleNotFoundError:
+    # Fallback for platforms that run this file as a script from within src/
+    from config import DEFAULT_OUTPUT
+    from data_prep import preprocess
+    from features import add_features
 
 
 st.set_page_config(page_title="Smart Energy Tracker", layout="wide", initial_sidebar_state="expanded")
